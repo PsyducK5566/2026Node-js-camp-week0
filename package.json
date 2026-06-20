@@ -1,0 +1,28 @@
+{
+  "name": "2026node-js-camp-week0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "errorHandle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PsyducK5566/2026Node-js-camp-week0.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/PsyducK5566/2026Node-js-camp-week0/issues"
+  },
+  "homepage": "https://github.com/PsyducK5566/2026Node-js-camp-week0#readme",
+  "dependencies": {
+    "uuid": "^14.0.0"
+  },
+  "engines": {
+    "node": "24.x"
+  }
+}
