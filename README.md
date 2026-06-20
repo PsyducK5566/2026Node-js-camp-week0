@@ -10,4 +10,4 @@ Node.js 原生 API 開發ToDoList 仿作專結構
 
 ├── package.json ← 由 $ npm init -y 自動建立  
 
-├── package-lock.json  ← 由 $ npm install uuid 執行後，npm 自動產生這個檔案。記錄了實際安裝的每個套件的精確版本與來源。
+├── package-lock.json  ← 由 $ npm install uuid 執行後，npm 自動產生這個檔案。它記錄了實際安裝的每個套件的精確版本與來源。
