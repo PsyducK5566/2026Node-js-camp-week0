@@ -1,0 +1,120 @@
+{
+  "info": {
+    "_postman_id": "76a66d6e-fb9f-4320-b65c-e3c4e5166fa9",
+    "name": "TODOLIST_Render",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55366204"
+  },
+  "item": [
+    {
+      "name": "取得所有事項",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "新增事項",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"T1 vs TLAW (BO5)\"   \r\n    \r\n}\r\n\r\n    \r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://two026node-js-camp-week0-todolist.onrender.com/todos",
+          "protocol": "https",
+          "host": [
+            "two026node-js-camp-week0-todolist",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "刪除所有事項",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://two026node-js-camp-week0-todolist.onrender.com/todos",
+          "protocol": "https",
+          "host": [
+            "two026node-js-camp-week0-todolist",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "刪除單筆事項(由id尋找)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://two026node-js-camp-week0-todolist.onrender.com/todos",
+          "protocol": "https",
+          "host": [
+            "two026node-js-camp-week0-todolist",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "todos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "修改單筆事項(由id尋找)",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"KC vs DCG (BO7)\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://two026node-js-camp-week0-todolist.onrender.com/todos/1a9357be-e09c-4770-ad26-ad33bbed0dba",
+          "protocol": "https",
+          "host": [
+            "two026node-js-camp-week0-todolist",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "todos",
+            "1a9357be-e09c-4770-ad26-ad33bbed0dba"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
