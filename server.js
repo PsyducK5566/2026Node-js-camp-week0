@@ -1,9 +1,16 @@
-const http = require("http"); // Node.js 內建，用來建立 HTTP 伺服器
-const fs = require("fs"); // Node.js 內建，用來讀寫檔案
-const { v4: uuidv4 } = require("uuid"); // 產生唯一 ID
-const errorHandle = require("./errorHandle");
-const successHandle = require("./successHandle");
-const headers = require("./header");
+/** { v4: uuidv4 } 是 CommonJS 的解構寫法，ESM 對應的是 { v4 as uuidv4 }，語法稍有不同。*/
+// const http = require("http"); // Node.js 內建，用來建立 HTTP 伺服器
+// const fs = require("fs"); // Node.js 內建，用來讀寫檔案
+// const { v4: uuidv4 } = require("uuid"); // 產生唯一 ID
+// const errorHandle = require("./errorHandle");
+// const successHandle = require("./successHandle");
+// const headers = require("./header");
+import http from "http";
+import fs from "fs";
+import { v4 as uuidv4 } from "uuid";
+import errorHandle from "./errorHandle.js";
+import successHandle from "./successHandle.js";
+import headers from "./header.js";
 
 // 資料持久化：將 todos 存進 JSON 檔案，重啟後資料不遺失
 const DB_PATH = "./todos.json";

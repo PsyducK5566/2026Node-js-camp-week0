@@ -6,4 +6,6 @@ const headers = {
 	"Content-Type": "application/json",
 };
 
-module.exports = headers;
+// module.exports = headers;
+// export default 是 ESM 的「預設匯出」，對應 CommonJS 的 module.exports。
+export default headers;

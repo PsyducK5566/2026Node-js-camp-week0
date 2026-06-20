@@ -1,4 +1,5 @@
-const headers = require("./header");
+// const headers = require("./header");
+import headers from "./header.js";
 
 function successHandle(res, data) {
 	res.writeHead(200, headers);
@@ -6,4 +7,5 @@ function successHandle(res, data) {
 	res.end();
 }
 
-module.exports = successHandle;
+// module.exports = successHandle;
+export default successHandle;

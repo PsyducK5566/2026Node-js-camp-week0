@@ -1,4 +1,6 @@
-const headers = require("./header");
+/** import X from './檔案.js' 對應 require('./檔案')，但副檔名 .js 不能省。 */
+// const headers = require("./header");
+import headers from "./header.js";
 
 function errorHandle(res, message = "欄位填寫錯誤，或無此 todo id") {
 	res.writeHead(400, headers);
@@ -6,4 +8,5 @@ function errorHandle(res, message = "欄位填寫錯誤，或無此 todo id") {
 	res.end();
 }
 
-module.exports = errorHandle;
+// module.exports = errorHandle;
+export default errorHandle;
