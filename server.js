@@ -41,15 +41,19 @@ const requestListener = function (req, res) {
 	});
 
 	// ─────────────────────  路由判斷 ───────────────────────────────
+	// GET /todos ：取得所有待辦事項
 	if (req.url === "/todos" && req.method === "GET") {
 		successHandle(res, todos);
+
+		// POST /todos ── 新增一筆待辦事項
 	} else if (req.url === "/todos" && req.method === "POST") {
 		req.on("end", () => {
+			// 若 body 過大已提前中止並回應，這裡直接返回，避免重複呼叫 res.end()
 			if (bodyTooLarge) return;
 
 			try {
 				const { title } = JSON.parse(body);
-
+				// 同時擋空字串和純空白
 				if (title !== undefined && title.trim() !== "") {
 					const todo = { title, id: uuidv4() };
 					todos.push(todo);
@@ -59,37 +63,47 @@ const requestListener = function (req, res) {
 					errorHandle(res, "請填寫 title 欄位");
 				}
 			} catch {
+				// JSON.parse 失敗代表 body 格式不合法
 				errorHandle(res, "Request body 格式錯誤，請確認是否為合法 JSON");
 			}
 		});
+
+		// DELETE /todos ：清空所有待辦事項
 	} else if (req.url === "/todos" && req.method === "DELETE") {
-		todos.length = 0; // 清空陣列（不能 todos = []，因為是 const）
+		todos.length = 0; // 清空陣列（不能 todos = []，因為是 const宣告不能重新賦值，但可以修改陣列內容，且其他地方若有保留參考也會同步清空）
 		saveTodos(todos);
 		successHandle(res, todos);
+
+		// DELETE /todos/:id ：刪除單筆待辦事項
 	} else if (req.url.startsWith("/todos/") && req.method === "DELETE") {
 		const id = req.url.split("/").pop();
 		const index = todos.findIndex((todo) => todo.id === id);
+
 		if (index !== -1) {
-			todos.splice(index, 1);
+			todos.splice(index, 1); // 從 index 位置移除 1 筆
 			saveTodos(todos);
 			successHandle(res, todos);
 		} else {
 			errorHandle(res, `找不到 id 為 "${id}" 的待辦事項`);
 		}
+
+		// PATCH /todos/:id ：更新單筆待辦事項的 title
 	} else if (req.url.startsWith("/todos/") && req.method === "PATCH") {
 		req.on("end", () => {
 			if (bodyTooLarge) return;
+
 			try {
 				const { title } = JSON.parse(body);
 				const id = req.url.split("/").pop();
 				const index = todos.findIndex((todo) => todo.id === id);
 
+				// 先算出 titleValid，避免重複判斷邏輯
 				const titleValid = title !== undefined && title.trim() !== "";
 				if (titleValid && index !== -1) {
 					todos[index].title = title;
 					saveTodos(todos);
 					successHandle(res, todos);
-				} else if (title === undefined) {
+				} else if (!titleValid) {
 					errorHandle(res, "請填寫 title 欄位");
 				} else {
 					errorHandle(res, `找不到 id 為 "${id}" 的待辦事項`);
