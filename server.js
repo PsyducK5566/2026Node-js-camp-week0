@@ -46,9 +46,11 @@ const requestListener = function (req, res) {
 	} else if (req.url === "/todos" && req.method === "POST") {
 		req.on("end", () => {
 			if (bodyTooLarge) return;
+
 			try {
 				const { title } = JSON.parse(body);
-				if (title !== undefined) {
+
+				if (title !== undefined && title.trim() !== "") {
 					const todo = { title, id: uuidv4() };
 					todos.push(todo);
 					saveTodos(todos);
@@ -81,7 +83,9 @@ const requestListener = function (req, res) {
 				const { title } = JSON.parse(body);
 				const id = req.url.split("/").pop();
 				const index = todos.findIndex((todo) => todo.id === id);
-				if (title !== undefined && index !== -1) {
+
+				const titleValid = title !== undefined && title.trim() !== "";
+				if (titleValid && index !== -1) {
 					todos[index].title = title;
 					saveTodos(todos);
 					successHandle(res, todos);
