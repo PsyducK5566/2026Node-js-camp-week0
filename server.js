@@ -48,14 +48,19 @@ const requestListener = function (req, res) {
 	});
 
 	// ─────────────────────  路由判斷 ───────────────────────────────
+	// GET /todos ：取待所有待辦事項
 	if (req.url === "/todos" && req.method === "GET") {
 		successHandle(res, todos);
+
+		// POST /todos ：新增一筆待辦事項
 	} else if (req.url === "/todos" && req.method === "POST") {
 		req.on("end", () => {
 			if (bodyTooLarge) return;
+
 			try {
 				const { title } = JSON.parse(body);
-				if (title !== undefined) {
+
+				if (title !== undefined && title.trim() !== "") {
 					const todo = { title, id: uuidv4() };
 					todos.push(todo);
 					saveTodos(todos);
@@ -67,13 +72,17 @@ const requestListener = function (req, res) {
 				errorHandle(res, "Request body 格式錯誤，請確認是否為合法 JSON");
 			}
 		});
+		// DELETE /todos  ：清空所有待辦事項
 	} else if (req.url === "/todos" && req.method === "DELETE") {
-		todos.length = 0; // 清空陣列（不能 todos = []，因為是 const）
+		todos.length = 0; // 清空陣列（不能 todos = []，因為是 const 宣告不能動新賦值）
 		saveTodos(todos);
 		successHandle(res, todos);
+
+		// DELETE /todos/:id ：刪除單筆待辦事項
 	} else if (req.url.startsWith("/todos/") && req.method === "DELETE") {
 		const id = req.url.split("/").pop();
 		const index = todos.findIndex((todo) => todo.id === id);
+
 		if (index !== -1) {
 			todos.splice(index, 1);
 			saveTodos(todos);
@@ -81,18 +90,22 @@ const requestListener = function (req, res) {
 		} else {
 			errorHandle(res, `找不到 id 為 "${id}" 的待辦事項`);
 		}
+		// PATCH /todos/:id ：更新單筆待辦事項的 title
 	} else if (req.url.startsWith("/todos/") && req.method === "PATCH") {
 		req.on("end", () => {
 			if (bodyTooLarge) return;
+
 			try {
 				const { title } = JSON.parse(body);
 				const id = req.url.split("/").pop();
 				const index = todos.findIndex((todo) => todo.id === id);
-				if (title !== undefined && index !== -1) {
+
+				const titleValid = title !== undefined && title.trim() !== "";
+				if (titleValid && index !== -1) {
 					todos[index].title = title;
 					saveTodos(todos);
 					successHandle(res, todos);
-				} else if (title === undefined) {
+				} else if (!titleValid) {
 					errorHandle(res, "請填寫 title 欄位");
 				} else {
 					errorHandle(res, `找不到 id 為 "${id}" 的待辦事項`);
@@ -101,9 +114,13 @@ const requestListener = function (req, res) {
 				errorHandle(res, "Request body 格式錯誤，請確認是否為合法 JSON");
 			}
 		});
+		// OPTIONS ── 處理瀏覽器 CORS preflight 請求
+		// 瀏覽器在發送跨來源請求前會先送 OPTIONS，確認 server 允許哪些方法與標頭
 	} else if (req.method === "OPTIONS") {
 		res.writeHead(200, headers);
 		res.end();
+
+		// 404 ── 路由不存在
 	} else {
 		res.writeHead(404, headers);
 		res.write(JSON.stringify({ status: "error", message: "無此網站路由" }));
